@@ -117,8 +117,9 @@ class ExchangeService:
         if direct:
             price = self.fetch_ticker_price(direct.symbol)
             base_amount = self.round_to_precision(from_amount, direct.amount_precision)
+            verb = "Обменял бы" if self.dry_run else "Обменял"
             text = (
-                f"Обменял {self.round_to_precision(base_amount, 6)} {from_cur} на ~"
+                f"{verb} {self.round_to_precision(base_amount, 6)} {from_cur} на ~"
                 f"{self.round_to_precision(base_amount * price, 6)} {to_cur} по цене ~"
                 f"{self.round_to_precision(price, direct.price_precision)} {to_cur}"
             )
@@ -133,8 +134,9 @@ class ExchangeService:
             price = self.fetch_ticker_price(inverse.symbol)  # price in FROM per 1 TO
             # We will BUY base=to_cur spending from_amount of quote=from_cur
             base_amount = self.round_to_precision(from_amount / price, inverse.amount_precision)
+            verb = "Обменял бы" if self.dry_run else "Обменял"
             text = (
-                f"Обменял ~{self.round_to_precision(from_amount, 6)} {from_cur} на "
+                f"{verb} ~{self.round_to_precision(from_amount, 6)} {from_cur} на "
                 f"{self.round_to_precision(base_amount, 6)} {to_cur} по цене ~"
                 f"{self.round_to_precision(price, inverse.price_precision)} {from_cur}"
             )
