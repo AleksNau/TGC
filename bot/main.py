@@ -134,17 +134,24 @@ async def on_buy_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         # Compose result text
         result_lines = []
         result_lines.extend(steps)
-        if filled_amount > 0:
+        if settings.dry_run:
+            result_lines.append(
+                f"DRY_RUN: Купил бы {filled_amount} {ticker} по цене ~{fill_price} {used_quote}"
+            )
+            result_lines.append(
+                f"DRY_RUN: Списал бы {format_money(spent_quote, used_quote)}"
+            )
+        else:
             result_lines.append(
                 f"Куплено {filled_amount} {ticker} по цене {fill_price} {used_quote}"
             )
             result_lines.append(
                 f"Списано {format_money(spent_quote, used_quote)}"
             )
-        else:
-            result_lines.append("DRY_RUN: ордер не исполнен")
 
-        await query.edit_message_text("\n".join(result_lines))
+        text = "\n".join(result_lines)
+        logger.info(text)
+        await query.edit_message_text(text)
     except Exception as e:
         logger.exception("Ошибка в покупке")
         await query.edit_message_text(f"Ошибка: {e}")
