@@ -1,0 +1,4 @@
+python-telegram-bot==20.7
+ccxt==4.4.75
+python-dotenv==1.0.1
+loguru==0.7.2
