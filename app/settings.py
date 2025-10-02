@@ -15,6 +15,7 @@ class Settings:
     bybit_api_key: str | None
     bybit_api_secret: str | None
     dry_run: bool
+    base_currency: str
     log_level: str
     log_file: str
 
@@ -33,6 +34,7 @@ def load_settings() -> Settings:
     bybit_api_key = os.getenv("BYBIT_API_KEY")
     bybit_api_secret = os.getenv("BYBIT_API_SECRET")
     dry_run = _str_to_bool(os.getenv("DRY_RUN"), True)
+    base_currency = os.getenv("BASE_CURRENCY", "USDC").strip().upper() or "USDC"
     log_level = os.getenv("LOG_LEVEL", "INFO").upper()
     log_file = os.getenv("LOG_FILE", "logs/app.log")
 
@@ -44,6 +46,7 @@ def load_settings() -> Settings:
         bybit_api_key=bybit_api_key,
         bybit_api_secret=bybit_api_secret,
         dry_run=dry_run,
+        base_currency=base_currency,
         log_level=log_level,
         log_file=log_file,
     )

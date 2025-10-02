@@ -21,7 +21,7 @@ async def main_async() -> None:
         dry_run=settings.dry_run,
     )
 
-    bot = TradingBot(exchange)
+    bot = TradingBot(exchange, settings)
     app = bot.build_app(settings.telegram_token)
 
     await app.initialize()
